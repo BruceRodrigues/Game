@@ -3,8 +3,8 @@ package common.animation;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import common.api.BaseCore;
-import common.api.Position;
+import common.BaseCore;
+import common.Position;
 
 public class Animation implements BaseCore {
 

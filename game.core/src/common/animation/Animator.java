@@ -3,7 +3,7 @@ package common.animation;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
-import common.api.BaseCore;
+import common.BaseCore;
 
 public class Animator implements BaseCore {
 
@@ -20,6 +20,12 @@ public class Animator implements BaseCore {
 
 	public void addAnimation(BaseAnimation baseAnimation, Animation animation) {
 		this.animations.put(baseAnimation, animation);
+		if (this.currentAnimation == null) {
+			this.currentAnimation = animation;
+		}
+		if (animation.isInitial()) {
+			this.currentAnimation = animation;
+		}
 	}
 
 	public void play(BaseAnimation baseAnimation) {

@@ -2,7 +2,7 @@ package common.gamestate;
 
 import java.awt.Graphics2D;
 
-import common.api.BaseCore;
+import common.BaseCore;
 
 public abstract class BaseScene implements BaseCore {
 

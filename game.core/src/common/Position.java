@@ -1,4 +1,4 @@
-package common.api;
+package common;
 
 public class Position {
 

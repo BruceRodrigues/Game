@@ -1,4 +1,4 @@
-package common.api;
+package common;
 
 import java.awt.Graphics2D;
 

@@ -3,7 +3,7 @@ package common.gamestate;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
-import common.api.BaseCore;
+import common.BaseCore;
 import common.exception.SceneTransitionException;
 import common.gamestate.enums.Scene;
 
