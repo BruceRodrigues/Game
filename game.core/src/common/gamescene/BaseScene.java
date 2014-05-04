@@ -1,4 +1,4 @@
-package common.gamestate;
+package common.gamescene;
 
 import java.awt.Graphics2D;
 

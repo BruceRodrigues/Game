@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import common.BaseCore;
-import common.Position;
+import common.Vector;
 
 public class Animation implements BaseCore {
 
@@ -24,19 +24,19 @@ public class Animation implements BaseCore {
 
 	private BufferedImage[] sprites;
 
-	private Position position;
+	private Vector position;
 
 	private int width;
 
 	private int height;
 
-	public Animation(Position position) {
+	public Animation(Vector position) {
 		this.position = position;
 		this.playedOnce = false;
 		this.initial = false;
 	}
 
-	public Animation(Position position, boolean isInitial) {
+	public Animation(Vector position, boolean isInitial) {
 		this(position);
 		this.initial = isInitial;
 	}
@@ -114,8 +114,8 @@ public class Animation implements BaseCore {
 	@Override
 	public void draw(Graphics2D graphics) {
 		graphics.drawImage(this.sprites[this.currentFrame],
-				this.position.getX() - this.width / 2, this.position.getY()
-						- this.height / 2, null);
+				(int) this.position.getX() - this.width / 2,
+				(int) this.position.getY() - this.height / 2, null);
 	}
 
 	@Override
