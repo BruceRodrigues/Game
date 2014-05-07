@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import common.BaseCore;
 import common.Vector;
+import common.gamepanel.BaseGamePanel;
 
 public class Background implements BaseCore {
 
@@ -52,5 +53,12 @@ public class Background implements BaseCore {
 	public void draw(Graphics2D graphics) {
 		graphics.drawImage(this.image, (int) this.position.getX(),
 				(int) this.position.getY(), null);
+		if (this.position.getX() < 0) {
+			graphics.drawImage(this.image, (int) this.position.getX()
+					+ BaseGamePanel.WIDTH, (int) this.position.getY(), null);
+		} else if (this.position.getX() > 0) {
+			graphics.drawImage(this.image, (int) this.position.getX()
+					- BaseGamePanel.WIDTH, (int) this.position.getY(), null);
+		}
 	}
 }

@@ -7,9 +7,6 @@ import common.BaseCore;
 
 public class Animator implements BaseCore {
 
-	public enum BaseAnimation {
-	}
-
 	private HashMap<BaseAnimation, Animation> animations;
 
 	private Animation currentAnimation;
@@ -31,18 +28,24 @@ public class Animator implements BaseCore {
 	public void play(BaseAnimation baseAnimation) {
 		if (this.animations.containsKey(baseAnimation)) {
 			this.currentAnimation = this.animations.get(baseAnimation);
+			this.currentAnimation.play();
 		}
 	}
 
 	@Override
 	public boolean update() {
 		this.currentAnimation.update();
-		for (Animation animation : this.animations.values()) {
-			if (animation.getTrigger().isTriggered()) {
-				animation.getTrigger().onTrigger();
-				animation.getTrigger().resetTrigger();
-			}
+		if (this.currentAnimation.getTrigger() != null
+				&& this.currentAnimation.getTrigger().isTriggered()) {
+			this.currentAnimation.getTrigger().onTrigger();
+			this.currentAnimation.getTrigger().resetTrigger();
 		}
+		// for (Animation animation : this.animations.values()) {
+		// if (animation.getTrigger().isTriggered()) {
+		// animation.getTrigger().onTrigger();
+		// animation.getTrigger().resetTrigger();
+		// }
+		// }
 		return true;
 	}
 

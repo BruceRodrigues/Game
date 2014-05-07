@@ -8,8 +8,6 @@ import common.Vector;
 
 public class Animation implements BaseCore {
 
-	private BufferedImage[] frames;
-
 	private int currentFrame;
 
 	private long startTime;
@@ -30,10 +28,14 @@ public class Animation implements BaseCore {
 
 	private int height;
 
+	private boolean playing;
+
 	public Animation(Vector position) {
 		this.position = position;
 		this.playedOnce = false;
 		this.initial = false;
+		this.playing = false;
+		this.delay = 400;
 	}
 
 	public Animation(Vector position, boolean isInitial) {
@@ -48,7 +50,7 @@ public class Animation implements BaseCore {
 
 		this.sprites = new BufferedImage[numberOfFrames];
 		for (int i = 0; i < numberOfFrames; i++) {
-			this.sprites[i] = image.getSubimage(i * width, i * height, width,
+			this.sprites[i] = image.getSubimage(i * width, 0 * height, width,
 					height);
 		}
 	}
@@ -65,10 +67,17 @@ public class Animation implements BaseCore {
 		return this.initial;
 	}
 
-	public void setFrames(BufferedImage[] frames) {
-		this.frames = frames;
-		this.currentFrame = 0;
+	// public void setFrames(BufferedImage[] frames) {
+	// this.frames = frames;
+	// this.currentFrame = 0;
+	// this.startTime = System.nanoTime();
+	// this.playedOnce = false;
+	// }
+
+	public void play() {
+		this.playing = true;
 		this.startTime = System.nanoTime();
+		this.currentFrame = 0;
 		this.playedOnce = false;
 	}
 
@@ -82,19 +91,21 @@ public class Animation implements BaseCore {
 
 	@Override
 	public boolean update() {
-		if (this.delay == -1) {
-			return false;
-		}
+		if (this.playing) {
+			if (this.delay == -1) {
+				return false;
+			}
 
-		long elapsed = (System.nanoTime() - this.startTime) / 1000000;
-		if (elapsed > this.delay) {
-			this.currentFrame++;
-			this.startTime = System.nanoTime();
-		}
+			long elapsed = (System.nanoTime() - this.startTime) / 1000000;
+			if (elapsed > this.delay) {
+				this.currentFrame++;
+				this.startTime = System.nanoTime();
+			}
 
-		if (this.currentFrame == this.frames.length) {
-			this.currentFrame = 0;
-			this.playedOnce = true;
+			if (this.currentFrame == this.sprites.length) {
+				this.currentFrame = 0;
+				this.playedOnce = true;
+			}
 		}
 		return true;
 	}
@@ -104,7 +115,7 @@ public class Animation implements BaseCore {
 	}
 
 	public BufferedImage getImage() {
-		return this.frames[this.currentFrame];
+		return this.sprites[this.currentFrame];
 	}
 
 	public boolean hasPlayedOnce() {

@@ -17,8 +17,8 @@ public abstract class BaseGamePanel extends JPanel implements Runnable,
 
 	private static final long serialVersionUID = 1L;
 
-	public int WIDTH = 640;
-	public int HEIGHT = 480;
+	public static int WIDTH = 640;
+	public static int HEIGHT = 480;
 	public int FPS = 60;
 	private long targetTime = 1000 / this.FPS;
 
@@ -34,7 +34,8 @@ public abstract class BaseGamePanel extends JPanel implements Runnable,
 
 	public BaseGamePanel() {
 		super();
-		this.setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
+		this.setPreferredSize(new Dimension(BaseGamePanel.WIDTH,
+				BaseGamePanel.HEIGHT));
 		this.setFocusable(true);
 		this.setVisible(true);
 		this.requestFocus();
@@ -53,8 +54,8 @@ public abstract class BaseGamePanel extends JPanel implements Runnable,
 	@Override
 	public void start() {
 		this.manager = new SceneManager();
-		this.image = new BufferedImage(this.WIDTH, this.HEIGHT,
-				BufferedImage.TYPE_INT_RGB);
+		this.image = new BufferedImage(BaseGamePanel.WIDTH,
+				BaseGamePanel.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		this.graphics = (Graphics2D) this.image.getGraphics();
 		this.running = true;
 
@@ -77,7 +78,8 @@ public abstract class BaseGamePanel extends JPanel implements Runnable,
 			this.draw(this.graphics);
 
 			Graphics g = this.getGraphics();
-			g.drawImage(this.image, 0, 0, this.WIDTH, this.HEIGHT, null);
+			g.drawImage(this.image, 0, 0, BaseGamePanel.WIDTH,
+					BaseGamePanel.HEIGHT, null);
 			g.dispose();
 
 			elapsed = System.nanoTime() - start;

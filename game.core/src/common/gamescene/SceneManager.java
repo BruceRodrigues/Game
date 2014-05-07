@@ -51,6 +51,12 @@ public class SceneManager implements BaseCore {
 		this.loadScene();
 	}
 
+	public void setScene(int index) {
+		this.unloadScene();
+		this.currentSceneIndex = index;
+		this.loadScene();
+	}
+
 	@Override
 	public void start() {
 		this.gameScenes.get(this.currentSceneIndex).start();

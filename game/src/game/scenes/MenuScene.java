@@ -63,7 +63,7 @@ public class MenuScene extends BaseScene {
 	}
 
 	@Override
-	public void draw(Graphics2D graphics) {
+	public void drawScene(Graphics2D graphics) {
 		this.background.draw(graphics);
 
 		graphics.setFont(this.font);
@@ -83,6 +83,7 @@ public class MenuScene extends BaseScene {
 	private void selectMenu() {
 		switch (this.currentOption) {
 		case START:
+			this.manager.setScene(1);
 			break;
 		default:
 			System.exit(0);
