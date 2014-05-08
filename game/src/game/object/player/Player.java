@@ -1,6 +1,7 @@
 package game.object.player;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -28,6 +29,8 @@ public class Player extends GameObject {
 
 	private Trigger.Parameter idle;
 
+	private AffineTransform transform = AffineTransform.getScaleInstance(-1, 1);
+
 	private final double SPEED = 3;
 
 	@Override
@@ -52,6 +55,7 @@ public class Player extends GameObject {
 			this.animationIdle.addTrigger(new Trigger(this.idle) {
 				@Override
 				public void onTrigger() {
+					Player.this.animationIdle.setFlip(!Player.this.facingRight);
 					Player.this.animator.play(Player.this.animationIdle);
 				}
 			});
@@ -68,6 +72,7 @@ public class Player extends GameObject {
 			this.animationRun.addTrigger(new Trigger(this.running) {
 				@Override
 				public void onTrigger() {
+					Player.this.animationRun.setFlip(!Player.this.facingRight);
 					Player.this.animator.play(Player.this.animationRun);
 				}
 			});

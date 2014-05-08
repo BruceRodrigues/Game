@@ -1,6 +1,8 @@
 package common.animation;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import common.BaseCore;
@@ -30,11 +32,19 @@ public class Animation implements BaseCore {
 
 	private boolean playing;
 
+	private AffineTransform tranform;
+
+	private AffineTransform scaleTransform;
+
+	private boolean flip;
+
 	public Animation(Vector position) {
+		this.tranform = new AffineTransform();
 		this.position = position;
 		this.playedOnce = false;
 		this.initial = false;
 		this.playing = false;
+		this.flip = false;
 		this.delay = 400;
 	}
 
@@ -127,9 +137,26 @@ public class Animation implements BaseCore {
 
 	@Override
 	public void draw(Graphics2D graphics) {
-		graphics.drawImage(this.sprites[this.currentFrame],
-				(int) this.position.getX() - this.width / 2,
-				(int) this.position.getY() - this.height / 2, null);
+		this.tranform.setToTranslation(this.position.getX() - this.width / 2,
+				this.position.getY() - this.height / 2);
+		BufferedImage image = this.sprites[this.currentFrame];
+		if (this.flip) {
+			image = this.flipImage(image);
+		}
+		graphics.drawImage(image, this.tranform, null);
+	}
+
+	public void setFlip(boolean flip) {
+		this.flip = flip;
+	}
+
+	private BufferedImage flipImage(BufferedImage image) {
+		this.scaleTransform = AffineTransform.getScaleInstance(-1, 1);
+		this.scaleTransform.translate(-image.getWidth(null), 0);
+		AffineTransformOp op = new AffineTransformOp(this.scaleTransform,
+				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		image = op.filter(image, null);
+		return image;
 	}
 
 	@Override

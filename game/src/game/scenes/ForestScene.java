@@ -56,9 +56,11 @@ public class ForestScene extends BaseScene {
 	public void keyReleased(int keyCode) {
 		switch (keyCode) {
 		case KeyEvent.VK_A:
+			System.out.print("A");
 			this.player.triggerRun(false);
 			break;
 		case KeyEvent.VK_D:
+			System.out.print("D");
 			this.player.triggerRun(false);
 		default:
 			break;
