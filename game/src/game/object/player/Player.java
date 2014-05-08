@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import common.Vector;
 import common.animation.Animation;
 import common.animation.Animator;
-import common.animation.BaseAnimation;
 import common.animation.Trigger;
 import common.object.GameObject;
 
@@ -23,14 +22,20 @@ public class Player extends GameObject {
 	private Animation animationRun;
 	private final String runURL = "/resources/gameobjects/player/run.png";
 
+	private boolean facingRight;
+
 	private Trigger.Parameter running;
 
 	private Trigger.Parameter idle;
 
-	BaseAnimation run;
+	private final double SPEED = 3;
 
 	@Override
 	public void start() {
+		this.facingRight = true;
+
+		this.moveSpeed = this.SPEED;
+
 		this.position = new Vector(200, 150);
 
 		this.running = new Trigger.Parameter();
@@ -44,52 +49,53 @@ public class Player extends GameObject {
 			this.animationIdle.loadSprites(this.getImageFromUrl(this.idleURL),
 					53, 56, 5);
 			this.animationIdle.setDelay(100);
-			this.animationIdle.addTrigger(new Trigger(this.running) {
+			this.animationIdle.addTrigger(new Trigger(this.idle) {
 				@Override
 				public void onTrigger() {
-					Player.this.animator.play(Player.this.run);
+					Player.this.animator.play(Player.this.animationIdle);
 				}
 			});
 
-			BaseAnimation idle = new BaseAnimation(false) {
-
-				@Override
-				public void onTrigger() {
-				}
-			};
-
-			this.animator.addAnimation(idle, this.animationIdle);
-			this.animator.play(idle);
+			this.animator.addAnimation(this.animationIdle);
+			this.animator.play(this.animationIdle);
 		}
 
 		{
 			this.animationRun = new Animation(this.position);
 			this.animationRun.loadSprites(this.getImageFromUrl(this.runURL),
 					55, 60, 8);
-			this.animationRun.setDelay(200);
+			this.animationRun.setDelay(100);
 			this.animationRun.addTrigger(new Trigger(this.running) {
 				@Override
 				public void onTrigger() {
-					Player.this.animator.play(Player.this.run);
+					Player.this.animator.play(Player.this.animationRun);
 				}
 			});
 
-			this.run = new BaseAnimation(false) {
-
-				@Override
-				public void onTrigger() {
-				}
-			};
-			this.animator.addAnimation(this.run, this.animationRun);
+			this.animator.addAnimation(this.animationRun);
 
 		}
 
 	}
 
 	@Override
-	public boolean update() {
+	public boolean objectUpdate() {
 		this.animator.update();
+
+		this.run();
+
 		return true;
+	}
+
+	private void run() {
+		int mult = 0;
+		if (this.facingRight) {
+			mult = 1;
+		} else {
+			mult = -1;
+		}
+		this.vector.setX(this.animationRun.isPlaying() ? this.moveSpeed * mult
+				: 0);
 	}
 
 	@Override
@@ -107,8 +113,20 @@ public class Player extends GameObject {
 		return image;
 	}
 
-	public void run(boolean run) {
-		this.running.setTrigger();
+	public void triggerRun(boolean run) {
+		if (run) {
+			this.running.setTrigger();
+		} else {
+			this.idle.setTrigger();
+		}
+	}
+
+	public boolean isFacingRight() {
+		return this.facingRight;
+	}
+
+	public void setFacingRight(boolean facingRight) {
+		this.facingRight = facingRight;
 	}
 
 }

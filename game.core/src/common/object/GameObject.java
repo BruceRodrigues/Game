@@ -13,6 +13,8 @@ public abstract class GameObject implements BaseCore {
 
 	protected Vector vector;
 
+	protected double moveSpeed;
+
 	protected int width, height;
 
 	public GameObject() {
@@ -25,7 +27,12 @@ public abstract class GameObject implements BaseCore {
 	public abstract void start();
 
 	@Override
-	public abstract boolean update();
+	public boolean update() {
+		this.position.add(this.vector);
+		return this.objectUpdate();
+	};
+
+	public abstract boolean objectUpdate();
 
 	@Override
 	public abstract void draw(Graphics2D graphics);

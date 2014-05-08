@@ -53,6 +53,9 @@ public class Animation implements BaseCore {
 			this.sprites[i] = image.getSubimage(i * width, 0 * height, width,
 					height);
 		}
+		if (this.initial) {
+			this.playing = true;
+		}
 	}
 
 	public void addTrigger(Trigger trigger) {
@@ -67,18 +70,14 @@ public class Animation implements BaseCore {
 		return this.initial;
 	}
 
-	// public void setFrames(BufferedImage[] frames) {
-	// this.frames = frames;
-	// this.currentFrame = 0;
-	// this.startTime = System.nanoTime();
-	// this.playedOnce = false;
-	// }
-
 	public void play() {
 		this.playing = true;
 		this.startTime = System.nanoTime();
-		this.currentFrame = 0;
 		this.playedOnce = false;
+	}
+
+	public void stop() {
+		this.playing = false;
 	}
 
 	public void setDelay(long delay) {
@@ -87,6 +86,10 @@ public class Animation implements BaseCore {
 
 	public void setFrame(int frame) {
 		this.currentFrame = frame;
+	}
+
+	public boolean isPlaying() {
+		return this.playing;
 	}
 
 	@Override

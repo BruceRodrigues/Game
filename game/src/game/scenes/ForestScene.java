@@ -35,9 +35,17 @@ public class ForestScene extends BaseScene {
 	@Override
 	public void keyPressed(int keyCode) {
 		switch (keyCode) {
-		case KeyEvent.VK_LEFT:
-			this.player.run(true);
+		case KeyEvent.VK_A:
+			if (this.player.isFacingRight()) {
+				this.player.setFacingRight(false);
+			}
+			this.player.triggerRun(true);
 			break;
+		case KeyEvent.VK_D:
+			if (!this.player.isFacingRight()) {
+				this.player.setFacingRight(true);
+			}
+			this.player.triggerRun(true);
 		default:
 			break;
 		}
@@ -46,7 +54,15 @@ public class ForestScene extends BaseScene {
 
 	@Override
 	public void keyReleased(int keyCode) {
-
+		switch (keyCode) {
+		case KeyEvent.VK_A:
+			this.player.triggerRun(false);
+			break;
+		case KeyEvent.VK_D:
+			this.player.triggerRun(false);
+		default:
+			break;
+		}
 	}
 
 }
